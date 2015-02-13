@@ -17,8 +17,6 @@ namespace BouncingGame.Android
         AlwaysRetainTaskState = true, LaunchMode = LaunchMode.SingleInstance)]
     public class MainActivity : AndroidGameActivity
     {
-        int count = 1;
-
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
