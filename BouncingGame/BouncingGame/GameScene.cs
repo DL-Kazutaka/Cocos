@@ -79,7 +79,7 @@ namespace BouncingGame
             AddEventListener(touchListener, this);
         }
 
-        // ボール移動用のパラメータ
+        // ボール進行方向用のパラメータ
         float ballXVelocity;
         float ballYVelocity;
 
@@ -92,9 +92,49 @@ namespace BouncingGame
         /// <param name="frameTimeInSeconds"></param>
         void RunGameLogic(float frameTimeInSeconds)
         {
+            // 移動距離を設定
             ballYVelocity += frameTimeInSeconds * -gravity;
+            // ボールの位置を設定
             ballSprite.PositionX += ballXVelocity * frameTimeInSeconds;
             ballSprite.PositionY += ballYVelocity * frameTimeInSeconds;
+
+            // ボールとバーが重なったか判定
+            bool doesBallOverlapPaddle = ballSprite.BoundingBoxTransformedToParent.IntersectsRect(
+                paddleSprite.BoundingBoxTransformedToParent);
+
+            // ボールが落下しているか判定
+            bool isMovingDownward = ballYVelocity < 0;
+
+            if (doesBallOverlapPaddle && isMovingDownward)
+            {
+                // ボール落下中にバーに当たったら
+                // ボールのY進行方向を反転
+                ballYVelocity *= -1;
+                // 移動速度の範囲を設定
+                const float minXVelocity = -300;
+                const float maxXVelocity = 300;
+                // 移動距離を変更
+                ballXVelocity = CCRandom.GetRandomFloat(minXVelocity, maxXVelocity);
+            }
+
+            // ボールの位置を取得
+            float ballRight = ballSprite.BoundingBoxTransformedToParent.MaxX;
+            float ballLeft = ballSprite.BoundingBoxTransformedToParent.MidX;
+
+            // スクリーンの範囲を取得
+            float screenRight = mainLayer.VisibleBoundsWorldspace.MaxX;
+            float screenLeft = mainLayer.VisibleBoundsWorldspace.MinX;
+
+            // ボールが画面外に行ってしまうか判定
+            bool shouldReflectXVelocity =
+                (ballRight > screenRight && ballXVelocity > 0) ||
+                (ballLeft < screenLeft && ballLeft < 0);
+
+            if (shouldReflectXVelocity)
+            {
+                // ボールのX進行方向を反転
+                ballXVelocity *= -1;
+            }
         }
 
         /// <summary>
