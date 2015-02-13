@@ -63,6 +63,27 @@ namespace BouncingGame
             scoreLabel.AnchorPoint = CCPoint.AnchorUpperLeft;
             // ラベルをレイヤーに追加
             mainLayer.AddChild(scoreLabel);
+
+            // ロジックを追加
+            Schedule(RunGameLogic);
+        }
+
+        // ボール移動用のパラメータ
+        float ballXVelocity;
+        float ballYVelocity;
+
+        // 移動定数
+        const float gravity = 140;
+
+        /// <summary>
+        /// Update
+        /// </summary>
+        /// <param name="frameTimeInSeconds"></param>
+        void RunGameLogic(float frameTimeInSeconds)
+        {
+            ballYVelocity += frameTimeInSeconds * -gravity;
+            ballSprite.PositionX += ballXVelocity * frameTimeInSeconds;
+            ballSprite.PositionY += ballYVelocity * frameTimeInSeconds;
         }
 
     }
