@@ -86,6 +86,9 @@ namespace BouncingGame
         // 移動定数
         const float gravity = 140;
 
+        // スコア
+        int score;
+
         /// <summary>
         /// Update
         /// </summary>
@@ -115,6 +118,10 @@ namespace BouncingGame
                 const float maxXVelocity = 300;
                 // 移動距離を変更
                 ballXVelocity = CCRandom.GetRandomFloat(minXVelocity, maxXVelocity);
+
+                // スコアを加算
+                score++;
+                scoreLabel.Text = "Score : " + score;
             }
 
             // ボールの位置を取得
