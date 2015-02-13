@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="GameAppDelegate.cs" />
+    <Compile Include="GameScene.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
