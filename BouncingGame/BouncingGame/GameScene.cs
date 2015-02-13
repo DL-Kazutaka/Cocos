@@ -12,7 +12,26 @@ namespace BouncingGame
     /// </summary>
     class GameScene : CCScene
     {
+        /// <summary>
+        /// レイヤー
+        /// 表示の階層を管理する
+        /// </summary>
         CCLayer mainLayer;
+
+        /// <summary>
+        /// スプライト
+        /// リソースを管理する
+        /// </summary>
+        CCSprite paddleSprite;
+
+        // ボール用のスプライト
+        CCSprite ballSprite;
+
+        /// <summary>
+        /// ラベル
+        /// 文字リソースを管理する
+        /// </summary>
+        CCLabelTtf scoreLabel;
 
         public GameScene(CCWindow mainWindow) : base (mainWindow)
         {
@@ -21,6 +40,29 @@ namespace BouncingGame
 
             // シーンにレイヤーを追加する
             AddChild(mainLayer);
+
+            // リソースを作成
+            paddleSprite = new CCSprite("paddle");
+            paddleSprite.PositionX = 100;
+            paddleSprite.PositionY = 100;
+            // レイヤーにリソースを追加
+            mainLayer.AddChild(paddleSprite);
+
+            // ボールのスプライトを作成
+            ballSprite = new CCSprite("ball");
+            ballSprite.PositionX = 320;
+            ballSprite.PositionY = 600;
+            // レイヤーにボールを追加
+            mainLayer.AddChild(ballSprite);
+
+            // ラベルを作成
+            scoreLabel = new CCLabelTtf("Score : 0", "arial-22", 22);
+            scoreLabel.PositionX = mainLayer.VisibleBoundsWorldspace.MinX + 20;
+            scoreLabel.PositionY = mainLayer.VisibleBoundsWorldspace.MaxY - 20;
+            // 基準位置を変更(デフォルトはセンター)
+            scoreLabel.AnchorPoint = CCPoint.AnchorUpperLeft;
+            // ラベルをレイヤーに追加
+            mainLayer.AddChild(scoreLabel);
         }
 
     }
