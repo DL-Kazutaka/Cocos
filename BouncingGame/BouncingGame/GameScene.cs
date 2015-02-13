@@ -33,6 +33,11 @@ namespace BouncingGame
         /// </summary>
         CCLabelTtf scoreLabel;
 
+        /// <summary>
+        /// タッチ判定用のリスナー
+        /// </summary>
+        CCEventListenerTouchAllAtOnce touchListener;
+
         public GameScene(CCWindow mainWindow) : base (mainWindow)
         {
             // レイヤーを作成する
@@ -66,6 +71,12 @@ namespace BouncingGame
 
             // ロジックを追加
             Schedule(RunGameLogic);
+
+            // タッチリスナーの設定
+            touchListener = new CCEventListenerTouchAllAtOnce();
+            // タッチした状態で動かしたときのイベント
+            touchListener.OnTouchesMoved = HandleTouchesMoved;
+            AddEventListener(touchListener, this);
         }
 
         // ボール移動用のパラメータ
@@ -84,6 +95,19 @@ namespace BouncingGame
             ballYVelocity += frameTimeInSeconds * -gravity;
             ballSprite.PositionX += ballXVelocity * frameTimeInSeconds;
             ballSprite.PositionY += ballYVelocity * frameTimeInSeconds;
+        }
+
+        /// <summary>
+        /// タッチイベントハンドラーの設定
+        /// </summary>
+        /// <param name="touches"></param>
+        /// <param name="touchEvent"></param>
+        void HandleTouchesMoved (System.Collections.Generic.List<CCTouch> touches, CCEvent touchEvent)
+        {
+            // タッチ位置を取得
+            var locationOnScreen = touches[0].LocationOnScreen;
+            // 棒の位置を設定
+            paddleSprite.PositionX = locationOnScreen.X;
         }
 
     }
